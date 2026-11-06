@@ -1,0 +1,14 @@
+<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#fff}svg{display:block;width:1500px;height:1125px}</style>
+<div id="o"></div>
+<script type="module">
+import { ORGANS } from '../drawings.js';
+const q = new URLSearchParams(location.search), k = q.get('o'), img = q.get('img'), ghost = q.has('ghost');
+const O = ORGANS[k];
+document.querySelector('#o').innerHTML = `<svg viewBox="0 -25 1000 750" xmlns="http://www.w3.org/2000/svg">
+<image href="${img}" x="0" y="-25" width="1000" height="750"/>
+${ghost ? `<g opacity=".35">${O.svg}</g>` : ''}
+${O.parts.map(([p,[x,y]])=>`<circle cx="${x}" cy="${y}" r="4.5" fill="#0f0" stroke="#000" stroke-width="1.5"/><text x="${x+7}" y="${y-5}" font-size="13" font-family="sans-serif" font-weight="bold" fill="#000" stroke="#fff" stroke-width="3" paint-order="stroke">${p}</text>`).join('')}
+${Array.from({length:21},(_,i)=>`<line x1="${i*50}" y1="-25" x2="${i*50}" y2="725" stroke="#0af" stroke-width=".4" opacity=".5"/><text x="${i*50+2}" y="-14" font-size="9" fill="#08a">${i*50}</text>`).join('')}
+${Array.from({length:15},(_,i)=>`<line x1="0" y1="${i*50}" x2="1000" y2="${i*50}" stroke="#0af" stroke-width=".4" opacity=".5"/><text x="2" y="${i*50-2}" font-size="9" fill="#08a">${i*50}</text>`).join('')}
+</svg>`;
+</script>

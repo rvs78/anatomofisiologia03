@@ -1,6 +1,6 @@
 // Pissarra Quest · RA3 La malaltia · RA4 Els sentits
 // Joc per equips per a pissarra digital tàctil: 10 pantalles a l'atzar (làmina, conceptes, làmina, conceptes…).
-import { ORGANS } from './drawings.js';
+import { ORGANS, plateArt } from './drawings.js';
 import { PLATES, DECKS, SENSES } from './data.js';
 import { buildRun, layoutLabels, applyScore, stars, formatTime, ranking, newTeam, SCREENS, LABEL } from './logic.js';
 import { t, L, getLang, setLang, FLAGS } from './i18n.js';
@@ -131,7 +131,7 @@ function welcome() {
       <p class="note">${t('note')}</p>
     </section>
     <section class="art">
-      <div class="collage">${minis.map((o, k) => `<figure class="minip m${k}"><svg viewBox="240 40 520 620" aria-hidden="true">${ORGANS[o].svg.replaceAll('id="', `id="w${k}`).replaceAll('url(#', `url(#w${k}`)}</svg><figcaption>${L(SENSES[ORGANS[o].sense])}</figcaption></figure>`).join('')}</div>
+      <div class="collage">${minis.map((o, k) => `<figure class="minip m${k}"><svg viewBox="240 40 520 620" aria-hidden="true">${plateArt(ORGANS[o])}</svg><figcaption>${L(SENSES[ORGANS[o].sense])}</figcaption></figure>`).join('')}</div>
       <p class="credit">${t('credit')}</p>
     </section>
   </div>`;
@@ -198,7 +198,7 @@ function boardHTML(sc, st) {
     const lay = layoutLabels(sc.ids.map(id => ({ id, at: at[id] })), { ...LABEL, mid: O.mid || LABEL.mid });
     const pct = (v, total) => `${(v / total) * 100}%`;
     return `
-      <svg class="art" viewBox="0 0 1000 700" aria-hidden="true">${O.svg}</svg>
+      <svg class="art" viewBox="0 0 1000 700" aria-hidden="true">${plateArt(O)}</svg>
       <svg class="leaders" viewBox="0 0 1000 700" aria-hidden="true">${lay.map(l => `<polyline data-for="${l.id}" class="${filled(l.id) ? 'done' : ''}" points="${l.leader.map(p => p.join(',')).join(' ')}"/>`).join('')}</svg>
       ${lay.map(l => `<span class="dot ${filled(l.id) ? 'done' : ''}" data-for="${l.id}" style="left:${pct(l.leader[2][0], 1000)};top:${pct(l.leader[2][1], 700)}"></span>`).join('')}
       ${lay.map(l => `<button class="slot ${l.side} ${filled(l.id) ? 'done' : ''}" data-target="${l.id}" style="left:${pct(l.x, 1000)};top:${pct(l.y - LABEL.h / 2, 700)};width:${pct(LABEL.w, 1000)};height:${pct(LABEL.h, 700)}" aria-label="${filled(l.id) ? esc(termOf(sc, l.id)) : t('emptySlot')}" ${filled(l.id) ? 'disabled' : ''}><span>${filled(l.id) ? esc(termOf(sc, l.id)) : ''}</span></button>`).join('')}

@@ -426,10 +426,29 @@ function skin() {
   return { svg, parts };
 }
 
-export const ORGANS = {
+const BASE_ORGANS = {
   ull: { sense: 'vista', ...eye() },
   orella: { sense: 'oida', ...ear() },
   llengua: { sense: 'gust', mid: 575, ...tongue() },
   nas: { sense: 'olfacte', ...nose() },
   pell: { sense: 'tacte', ...skin() },
 };
+
+/* Làmines realistes generades amb IA (OpenRouter · openai/gpt-image-2.6-sunburst) a partir d'aquests mateixos
+   dibuixos com a plantilla (tools/ref.html → tools/laminas.py). La imatge cobreix el viewBox 0 −25 1000 750.
+   Els punts s'han revisat un per un sobre cada imatge (tools/overlay.html); aquí hi ha els que s'han hagut de moure. */
+export const IMG_BOX = { x: 0, y: -25, w: 1000, h: 750 };
+const IA_FIX = {
+  orella: { pavello: [273, 288] },
+  llengua: { fungiformes: [357, 567] },
+};
+
+export const ORGANS = Object.fromEntries(Object.entries(BASE_ORGANS).map(([k, O]) => [k, {
+  ...O,
+  img: `./assets/laminas/${k}.webp`,
+  parts: O.parts.map(([id, at]) => [id, (IA_FIX[k] || {})[id] || at]),
+}]));
+
+/** Contingut SVG de la làmina: la imatge realista o, si es demana, el dibuix vectorial original. */
+export const plateArt = (O, vector = false) => (vector || !O.img ? O.svg
+  : `<image href="${O.img}" x="${IMG_BOX.x}" y="${IMG_BOX.y}" width="${IMG_BOX.w}" height="${IMG_BOX.h}" preserveAspectRatio="none"/>`);

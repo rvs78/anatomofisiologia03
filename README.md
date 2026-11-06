@@ -26,7 +26,7 @@ Mateix sistema visual que [Vascular Quest](https://rvs78.github.io/anatomia02/) 
 
 ## Contingut
 
-**Làmines (RA4 · Els sentits)** — dibuixos SVG fets a mà, amb els punts calculats a partir de la mateixa geometria del dibuix:
+**Làmines (RA4 · Els sentits)** — il·lustracions mèdiques realistes generades amb IA (OpenRouter · GPT Image 2.6, via Composio) a partir de dibuixos SVG fets a mà que fan de plantilla; els punts es calculen amb la geometria del dibuix i s'han revisat un per un sobre cada imatge (vegeu `tools/PROMPTS_IA.md`):
 
 | Làmina | Estructures (en surten 6 a l'atzar) |
 | --- | --- |
@@ -62,7 +62,8 @@ Tot el contingut és a `data.js` (textos en català i castellà) i `drawings.js`
 | `index.html`, `styles.css` | Pàgina i estil (mesures en `rem` i `cqw`: escala amb la pissarra) |
 | `game.js` | Pantalles, arrossegar i deixar (pointer events, multidit), torns i resultats |
 | `logic.js` | Lògica pura: sorteig, posició de les etiquetes sense creuaments, puntuació |
-| `drawings.js` | Les cinc làmines en SVG i els seus punts |
+| `drawings.js` | Les cinc làmines: dibuix SVG (plantilla), imatge realista i punts |
+| `assets/laminas/` | Les cinc il·lustracions realistes (WebP) |
 | `data.js`, `i18n.js` | Contingut i textos d'interfície (ca/es) |
 | `fx.js` | Moviment i so (igual que Vascular Quest) |
 
@@ -76,6 +77,6 @@ node tests/check.mjs                                 # dades, 500 partides sorte
 python3 tests/e2e.py http://localhost:8000/ shots ca 1920 1080   # partida completa amb tocs reals (Playwright)
 ```
 
-`tools/preview.html` mostra les làmines amb tots els punts, per revisar-ne l'anatomia.
+`tools/preview.html` mostra els dibuixos SVG amb tots els punts; `tools/overlay.html?o=ull&img=ia/ull_gpt.webp` superposa els punts a la imatge generada. `tools/laminas.py` prepara les imatges (vegeu `tools/PROMPTS_IA.md`).
 
 Publicació: GitHub Pages des de la branca `main` (carpeta arrel). Sense dependències ni compilació.

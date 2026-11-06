@@ -1,0 +1,7 @@
+<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#fff}svg{display:block;width:1600px;height:1200px}</style>
+<div id="o"></div>
+<script type="module">
+import { ORGANS } from '../drawings.js';
+const k = new URLSearchParams(location.search).get('o');
+document.querySelector('#o').innerHTML = `<svg viewBox="0 -25 1000 750" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="-25" width="1000" height="750" fill="#fff"/>${ORGANS[k].svg}</svg>`;
+</script>
