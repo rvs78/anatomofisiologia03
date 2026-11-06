@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#fff}svg{display:block;width:1000px;height:700px;border-bottom:2px solid #000}</style>
+<div id="o"></div>
+<script type="module">
+import { ORGANS } from '../drawings.js';
+const k = new URLSearchParams(location.search).get('o');
+const list = k ? [k] : Object.keys(ORGANS);
+document.querySelector('#o').innerHTML = list.map(id => { const O = ORGANS[id];
+ return `<svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg"><rect width="1000" height="700" fill="#fff"/><rect x="250" y="0" width="500" height="700" fill="none" stroke="#ddd" stroke-dasharray="4 4"/>${O.svg}
+ ${O.parts.map(([p,[x,y]],i)=>`<circle cx="${x}" cy="${y}" r="5" fill="#000" stroke="#fff" stroke-width="2"/><text x="${x<500? 20: 770}" y="${30+i*44}" font-size="18" font-family="sans-serif">${p}</text><line x1="${x<500?150:770}" y1="${25+i*44}" x2="${x}" y2="${y}" stroke="#0a0" stroke-width="1"/>`).join('')}</svg>`}).join('');
+document.body.dataset.ready = 1;
+</script>
